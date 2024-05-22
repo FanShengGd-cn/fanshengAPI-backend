@@ -11,10 +11,6 @@ import com.fansheng.springbootinit.model.dto.file.UploadFileRequest;
 import com.fansheng.springbootinit.model.entity.User;
 import com.fansheng.springbootinit.model.enums.FileUploadBizEnum;
 import com.fansheng.springbootinit.service.UserService;
-import java.io.File;
-import java.util.Arrays;
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,11 +19,16 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.util.Arrays;
+
 /**
  * 文件接口
  *
- * @author <a href="https://github.com/lifansheng">程序员鱼皮</a>
- * @from <a href="https://fansheng.icu">编程导航知识星球</a>
+ * @author 
+ * @from 
  */
 @RestController
 @RequestMapping("/file")

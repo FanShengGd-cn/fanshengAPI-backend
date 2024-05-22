@@ -3,8 +3,8 @@ package com.fansheng.springbootinit.constant;
 /**
  * 文件常量
  *
- * @author <a href="https://github.com/lifansheng">程序员鱼皮</a>
- * @from <a href="https://fansheng.icu">编程导航知识星球</a>
+ * @author 
+ * @from 
  */
 public interface FileConstant {
 
