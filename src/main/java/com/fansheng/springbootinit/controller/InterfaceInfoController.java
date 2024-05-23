@@ -1,6 +1,7 @@
 package com.fansheng.springbootinit.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fansheng.fanshengapiclientsdk.client.FanshengApiClient;
 import com.fansheng.springbootinit.annotation.AuthCheck;
 import com.fansheng.springbootinit.common.BaseResponse;
 import com.fansheng.springbootinit.common.DeleteRequest;
@@ -9,15 +10,18 @@ import com.fansheng.springbootinit.common.ResultUtils;
 import com.fansheng.springbootinit.constant.UserConstant;
 import com.fansheng.springbootinit.exception.BusinessException;
 import com.fansheng.springbootinit.exception.ThrowUtils;
+import com.fansheng.springbootinit.model.dto.interface_info.IdRequest;
 import com.fansheng.springbootinit.model.dto.interface_info.InterfaceInfoAddRequest;
 import com.fansheng.springbootinit.model.dto.interface_info.InterfaceInfoQueryRequest;
 import com.fansheng.springbootinit.model.dto.interface_info.InterfaceInfoUpdateRequest;
 import com.fansheng.springbootinit.model.entity.InterfaceInfo;
 import com.fansheng.springbootinit.model.entity.User;
+import com.fansheng.springbootinit.model.enums.InterfaceInfoStatusEnum;
 import com.fansheng.springbootinit.model.vo.InterfaceInfoVO;
 import com.fansheng.springbootinit.service.InterfaceInfoService;
 import com.fansheng.springbootinit.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,6 +44,9 @@ public class InterfaceInfoController {
 
     @Resource
     private UserService userService;
+
+    @Resource
+    private FanshengApiClient fanshengApiClient;
 
     // region 增删改查
 
@@ -244,5 +251,68 @@ public class InterfaceInfoController {
 //        boolean result = interfaceInfoService.updateById(interfaceInfo);
 //        return ResultUtils.success(result);
 //    }
+
+    /**
+     * 上线接口（仅管理员）
+     *
+     * @param idRequest
+     * @return
+     */
+    @PostMapping("/online")
+    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
+    public BaseResponse<Boolean> onlineInterfaceInfo(@RequestBody IdRequest idRequest,HttpServletRequest request) {
+        // 参数是否有效
+        if(idRequest == null || idRequest.getId() <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        // 接口是否存在
+        InterfaceInfo interfaceInfo = interfaceInfoService.getById(idRequest.getId());
+        if(interfaceInfo == null) {
+            throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
+        }
+        // 接口是否可用
+        com.fansheng.fanshengapiclientsdk.model.User user = new com.fansheng.fanshengapiclientsdk.model.User();
+        user.setUsername("项目测试");
+        String usernameByPOST = fanshengApiClient.getUsernameByPOST(user);
+        if(StringUtils.isBlank(usernameByPOST)) {
+            throw new BusinessException(ErrorCode.SYSTEM_ERROR,"接口验证失败");
+        }
+        InterfaceInfo res = new InterfaceInfo();
+        res.setId(idRequest.getId());
+        res.setStatus(InterfaceInfoStatusEnum.ONLINE.getValue());
+        boolean b = interfaceInfoService.updateById(res);
+        if(!b){
+            throw new BusinessException(ErrorCode.OPERATION_ERROR);
+        }
+        return ResultUtils.success(b);
+
+    }
+    /**
+     * 下线接口（仅管理员）
+     *
+     * @param idRequest
+     * @return
+     */
+    @PostMapping("/offline")
+    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
+    public BaseResponse<Boolean> offlineInterfaceInfo(@RequestBody IdRequest idRequest,HttpServletRequest request) {
+        // 参数是否有效
+        if(idRequest == null || idRequest.getId() <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        // 接口是否存在
+        InterfaceInfo interfaceInfo = interfaceInfoService.getById(idRequest.getId());
+        if(interfaceInfo == null) {
+            throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
+        }
+        InterfaceInfo res = new InterfaceInfo();
+        res.setId(idRequest.getId());
+        res.setStatus(InterfaceInfoStatusEnum.OFFLINE.getValue());
+        boolean b = interfaceInfoService.updateById(res);
+        if(!b){
+            throw new BusinessException(ErrorCode.OPERATION_ERROR);
+        }
+        return ResultUtils.success(b);
+    }
 
 }

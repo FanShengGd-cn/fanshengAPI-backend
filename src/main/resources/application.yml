@@ -101,3 +101,8 @@ knife4j:
         api-rule: package
         api-rule-resources:
           - com.fansheng.springbootinit.controller
+fanshengapi:
+  client:
+    access-key: fansheng
+    secret-key: 12345678
+# 接口sdk配置

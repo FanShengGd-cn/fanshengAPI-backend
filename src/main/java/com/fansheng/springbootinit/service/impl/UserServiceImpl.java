@@ -1,6 +1,7 @@
 package com.fansheng.springbootinit.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.RandomUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fansheng.springbootinit.common.ErrorCode;
@@ -16,6 +17,7 @@ import com.fansheng.springbootinit.service.UserService;
 import com.fansheng.springbootinit.utils.SqlUtils;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.bean.WxOAuth2UserInfo;
+import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -30,13 +32,11 @@ import static com.fansheng.springbootinit.constant.UserConstant.USER_LOGIN_STATE
 
 /**
  * 用户服务实现
- *
-
  */
 @Service
 @Slf4j
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
-
+    private Boolean init = true;
     /**
      * 盐值，混淆密码
      */
@@ -68,9 +68,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             }
             // 2. 加密
             String encryptPassword = DigestUtils.md5DigestAsHex((SALT + userPassword).getBytes());
+            String accessKey = DigestUtils.md5DigestAsHex((SALT + userAccount + RandomUtil.randomNumbers(8)).getBytes());
+            String secretKey = DigestUtils.md5DigestAsHex((SALT + userAccount + RandomUtil.randomNumbers(8)).getBytes());
             // 3. 插入数据
             User user = new User();
             user.setUserAccount(userAccount);
+            user.setUserName(userAccount);
+            user.setAccessKey(accessKey);
+            user.setSecretKey(secretKey);
             user.setUserPassword(encryptPassword);
             boolean saveResult = this.save(user);
             if (!saveResult) {
