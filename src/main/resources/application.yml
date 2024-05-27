@@ -3,7 +3,7 @@
 # @from 
 spring:
   application:
-    name: fanshengAPI-backend
+    name: fanshengapibackend
   # 默认 dev 环境
   profiles:
     active: dev
@@ -100,9 +100,16 @@ knife4j:
       default:
         api-rule: package
         api-rule-resources:
-          - com.fansheng.springbootinit.controller
+          - com.fansheng.fanshengapibackend.controller
+# 接口sdk配置
 fanshengapi:
   client:
     access-key: fansheng
     secret-key: 12345678
-# 接口sdk配置
+
+
+dubbo:
+  application:
+    name: fanshengapibackend
+  registry:
+    address: nacos://localhost:8848

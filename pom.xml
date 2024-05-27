@@ -10,11 +10,13 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.fansheng</groupId>
-    <artifactId>fanshengAPI-backend</artifactId>
+    <artifactId>fanshengapibackend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>springboot-init</name>
     <properties>
         <java.version>17</java.version>
+        <!-- 2.1.2版本以上支持纯净版客户端 -->
+        <nacos.version>2.2.0</nacos.version>
     </properties>
     <dependencies>
         <dependency>
@@ -120,6 +122,22 @@
             <artifactId>fanshengapi-client-sdk</artifactId>
             <version>0.0.1</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.dubbo/dubbo -->
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo</artifactId>
+            <version>3.1.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba.nacos</groupId>
+            <artifactId>nacos-client</artifactId>
+            <version>${nacos.version}</version>
+        </dependency>
+
+
+
     </dependencies>
 
     <build>
