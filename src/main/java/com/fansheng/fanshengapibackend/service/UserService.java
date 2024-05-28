@@ -3,9 +3,9 @@ package com.fansheng.fanshengapibackend.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.fansheng.fanshengapibackend.model.dto.user.UserQueryRequest;
-import com.fansheng.fanshengapibackend.model.entity.User;
 import com.fansheng.fanshengapibackend.model.vo.LoginUserVO;
 import com.fansheng.fanshengapibackend.model.vo.UserVO;
+import com.fansheng.fanshengapicommon.model.entity.User;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;

@@ -3,11 +3,9 @@ package com.fansheng.fanshengapibackend.aop;
 import com.fansheng.fanshengapibackend.annotation.AuthCheck;
 import com.fansheng.fanshengapibackend.common.ErrorCode;
 import com.fansheng.fanshengapibackend.exception.BusinessException;
-import com.fansheng.fanshengapibackend.model.entity.User;
-import com.fansheng.fanshengapibackend.model.enums.UserRoleEnum;
 import com.fansheng.fanshengapibackend.service.UserService;
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
+import com.fansheng.fanshengapicommon.model.entity.User;
+import com.fansheng.fanshengapicommon.model.enums.UserRoleEnum;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -16,6 +14,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 权限校验 AOP

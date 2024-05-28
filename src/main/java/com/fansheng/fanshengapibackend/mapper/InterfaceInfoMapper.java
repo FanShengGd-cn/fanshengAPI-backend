@@ -1,7 +1,8 @@
 package com.fansheng.fanshengapibackend.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.fansheng.fanshengapibackend.model.entity.InterfaceInfo;
+import com.fansheng.fanshengapicommon.model.entity.InterfaceInfo;
+
 
 /**
 * @author xiang

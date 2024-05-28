@@ -20,6 +20,16 @@
     </properties>
     <dependencies>
         <dependency>
+            <groupId>com.fansheng</groupId>
+            <artifactId>fanshengapi-common</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fansheng</groupId>
+            <artifactId>fanshengapi-client-sdk</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-freemarker</artifactId>
         </dependency>

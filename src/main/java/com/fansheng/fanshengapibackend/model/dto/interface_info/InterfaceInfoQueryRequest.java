@@ -27,7 +27,12 @@ public class InterfaceInfoQueryRequest extends PageRequest implements Serializab
     private String name;
 
     /**
-     * 接口路径
+     * 请求地址,例：http://127.0.0.1
+     */
+    private String host;
+
+    /**
+     * 接口路径,例：/api/name
      */
     private String url;
 
@@ -46,7 +51,7 @@ public class InterfaceInfoQueryRequest extends PageRequest implements Serializab
      */
     private String responseHeader;
 
-    private String responseParams;
+    private String requestParams;
 
     /**
      * 接口描述

@@ -1,7 +1,8 @@
 package com.fansheng.fanshengapibackend.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.fansheng.fanshengapibackend.model.entity.User;
+import com.fansheng.fanshengapicommon.model.entity.User;
+
 
 /**
  * 用户数据库操作

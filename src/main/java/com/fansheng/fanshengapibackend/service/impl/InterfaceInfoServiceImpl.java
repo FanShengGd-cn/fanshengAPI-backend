@@ -9,15 +9,13 @@ import com.fansheng.fanshengapibackend.constant.CommonConstant;
 import com.fansheng.fanshengapibackend.exception.ThrowUtils;
 import com.fansheng.fanshengapibackend.mapper.InterfaceInfoMapper;
 import com.fansheng.fanshengapibackend.model.dto.interface_info.InterfaceInfoQueryRequest;
-import com.fansheng.fanshengapibackend.model.entity.InterfaceInfo;
-import com.fansheng.fanshengapibackend.model.entity.PostFavour;
-import com.fansheng.fanshengapibackend.model.entity.PostThumb;
-import com.fansheng.fanshengapibackend.model.entity.User;
 import com.fansheng.fanshengapibackend.model.vo.InterfaceInfoVO;
 import com.fansheng.fanshengapibackend.model.vo.UserVO;
 import com.fansheng.fanshengapibackend.service.InterfaceInfoService;
 import com.fansheng.fanshengapibackend.service.UserService;
 import com.fansheng.fanshengapibackend.utils.SqlUtils;
+import com.fansheng.fanshengapicommon.model.entity.InterfaceInfo;
+import com.fansheng.fanshengapicommon.model.entity.User;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -53,7 +51,7 @@ public class InterfaceInfoServiceImpl extends ServiceImpl<InterfaceInfoMapper, I
         String responseHeader = interfaceInfo.getResponseHeader();
         String description = interfaceInfo.getDescription();
         if (add) {
-            ThrowUtils.throwIf(StringUtils.isAnyBlank(name, url, method, requestHeader, responseHeader), ErrorCode.PARAMS_ERROR);
+            ThrowUtils.throwIf(StringUtils.isAnyBlank(name, url, method), ErrorCode.PARAMS_ERROR);
         }
         ThrowUtils.throwIf(name .length() > 50, ErrorCode.PARAMS_ERROR,"内容过长");
 
@@ -103,20 +101,6 @@ public class InterfaceInfoServiceImpl extends ServiceImpl<InterfaceInfoMapper, I
         }
         UserVO userVO = userService.getUserVO(user);
         interfaceInfoVO.setUserVO(userVO);
-        // 2. 已登录，获取用户点赞、收藏状态
-        User loginUser = userService.getLoginUserPermitNull(request);
-        if (loginUser != null) {
-            // 获取点赞
-            QueryWrapper<PostThumb> postThumbQueryWrapper = new QueryWrapper<>();
-            postThumbQueryWrapper.in("postId", postId);
-            postThumbQueryWrapper.eq("userId", loginUser.getId());
-
-            // 获取收藏
-            QueryWrapper<PostFavour> postFavourQueryWrapper = new QueryWrapper<>();
-            postFavourQueryWrapper.in("postId", postId);
-            postFavourQueryWrapper.eq("userId", loginUser.getId());
-
-        }
         return interfaceInfoVO;
     }
 
@@ -132,19 +116,6 @@ public class InterfaceInfoServiceImpl extends ServiceImpl<InterfaceInfoMapper, I
         Map<Long, List<User>> userIdUserListMap = userService.listByIds(userIdSet).stream()
                 .collect(Collectors.groupingBy(User::getId));
         // 2. 已登录，获取用户点赞、收藏状态
-        User loginUser = userService.getLoginUserPermitNull(request);
-        if (loginUser != null) {
-            Set<Long> postIdSet = infoList.stream().map(InterfaceInfo::getId).collect(Collectors.toSet());
-            loginUser = userService.getLoginUser(request);
-            // 获取点赞
-            QueryWrapper<PostThumb> postThumbQueryWrapper = new QueryWrapper<>();
-            postThumbQueryWrapper.in("postId", postIdSet);
-            postThumbQueryWrapper.eq("userId", loginUser.getId());
-            // 获取收藏
-            QueryWrapper<PostFavour> postFavourQueryWrapper = new QueryWrapper<>();
-            postFavourQueryWrapper.in("postId", postIdSet);
-            postFavourQueryWrapper.eq("userId", loginUser.getId());
-        }
         // 填充信息
         List<InterfaceInfoVO> interfaceInfoVOList = infoList.stream().map(info -> {
             InterfaceInfoVO interfaceInfoVO = InterfaceInfoVO.objToVo(info);

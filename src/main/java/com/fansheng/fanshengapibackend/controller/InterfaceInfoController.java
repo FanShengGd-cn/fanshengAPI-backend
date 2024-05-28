@@ -1,7 +1,6 @@
 package com.fansheng.fanshengapibackend.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.fansheng.fanshengapiclientsdk.client.FanshengApiClient;
 import com.fansheng.fanshengapibackend.annotation.AuthCheck;
 import com.fansheng.fanshengapibackend.common.BaseResponse;
 import com.fansheng.fanshengapibackend.common.DeleteRequest;
@@ -11,12 +10,13 @@ import com.fansheng.fanshengapibackend.constant.UserConstant;
 import com.fansheng.fanshengapibackend.exception.BusinessException;
 import com.fansheng.fanshengapibackend.exception.ThrowUtils;
 import com.fansheng.fanshengapibackend.model.dto.interface_info.*;
-import com.fansheng.fanshengapibackend.model.entity.InterfaceInfo;
-import com.fansheng.fanshengapibackend.model.entity.User;
-import com.fansheng.fanshengapibackend.model.enums.InterfaceInfoStatusEnum;
 import com.fansheng.fanshengapibackend.model.vo.InterfaceInfoVO;
 import com.fansheng.fanshengapibackend.service.InterfaceInfoService;
 import com.fansheng.fanshengapibackend.service.UserService;
+import com.fansheng.fanshengapiclientsdk.client.FanshengApiClient;
+import com.fansheng.fanshengapicommon.model.entity.InterfaceInfo;
+import com.fansheng.fanshengapicommon.model.entity.User;
+import com.fansheng.fanshengapicommon.model.enums.InterfaceInfoStatusEnum;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -340,7 +340,7 @@ public class InterfaceInfoController {
         String accessKey = loginUser.getAccessKey();
         String secretKey = loginUser.getSecretKey();
         Gson gson = new Gson();
-        com.fansheng.fanshengapiclientsdk.model.User user = gson.fromJson(interfaceInfoInvokeRequest.getUserResponseParams(), com.fansheng.fanshengapiclientsdk.model.User.class);
+        com.fansheng.fanshengapiclientsdk.model.User user = gson.fromJson(interfaceInfoInvokeRequest.getUserrequestParams(), com.fansheng.fanshengapiclientsdk.model.User.class);
         FanshengApiClient fanshengApiClient1 = new FanshengApiClient(accessKey, secretKey);
         String usernameByPOST = fanshengApiClient1.getUsernameByPOST(user);
         if (usernameByPOST.isEmpty()){

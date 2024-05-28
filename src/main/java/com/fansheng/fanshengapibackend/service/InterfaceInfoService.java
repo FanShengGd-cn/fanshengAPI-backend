@@ -4,8 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.fansheng.fanshengapibackend.model.dto.interface_info.InterfaceInfoQueryRequest;
-import com.fansheng.fanshengapibackend.model.entity.InterfaceInfo;
 import com.fansheng.fanshengapibackend.model.vo.InterfaceInfoVO;
+import com.fansheng.fanshengapicommon.model.entity.InterfaceInfo;
 
 import javax.servlet.http.HttpServletRequest;
 
